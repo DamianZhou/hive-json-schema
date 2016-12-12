@@ -93,7 +93,7 @@ public class JsonHiveSchema  {
     @SuppressWarnings("unchecked")
     Iterator<String> keys = jo.keys();
     keys = new OrderedIterator(keys);
-    StringBuilder sb = new StringBuilder("CREATE TABLE ").append(tableName).append(" (\n");
+    StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(tableName).append(" (\n");
 
     while (keys.hasNext()) {
       String k = keys.next();
@@ -105,7 +105,9 @@ public class JsonHiveSchema  {
     }
 
     sb.replace(sb.length() - 2, sb.length(), ")\n"); // remove last comma
-    return sb.append("ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe';").toString();
+    sb.append("PARTITIONED BY (ds string)\n");
+    sb.append("ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe';\n");
+    return sb.toString();
   }
 
   private String toHiveSchema(JSONObject o) throws JSONException { 
