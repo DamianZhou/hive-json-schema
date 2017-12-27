@@ -5,3 +5,5 @@
 .project
 in.json
 /.settings
+json-hive-schema.iml
+main.iml

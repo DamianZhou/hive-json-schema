@@ -1,14 +1,14 @@
 package net.thornydev;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Generates Hive schemas for use with the JSON SerDe from
@@ -135,7 +135,10 @@ public class JsonHiveSchema  {
     StringBuilder sb = new StringBuilder();
 
     if (a.length() == 0) {
-      throw new IllegalStateException("Array is empty: " + a.toString());
+//      throw new IllegalStateException("Array is empty: " + a.toString());
+        //如果为空Array，默认为string
+        sb.append( scalarType("") );
+        return sb.toString();
     }
     
     Object entry0 = a.get(0);
